@@ -59,7 +59,7 @@ namespace CodeBase.Infrastructure.Services.Factory
             GameObject monster =
                 GameObject.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity, parent);
 
-            IHealth health = monster.GetComponent<IHealth>();
+            EnemyHealth health = monster.GetComponent<EnemyHealth>();
             health.Current = monsterData.StartHp + monsterData.DeltaNextLevelHp * (currentLevel - 1);
             health.Max = health.Current;
 

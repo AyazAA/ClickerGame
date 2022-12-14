@@ -22,10 +22,11 @@ namespace CodeBase.Logic
     
     private IEnumerator DoFadeIn()
     {
+      WaitForSeconds waitForSeconds = new WaitForSeconds(0.03f);
       while (Curtain.alpha > 0)
       {
         Curtain.alpha -= 0.03f;
-        yield return new WaitForSeconds(0.03f);
+        yield return waitForSeconds;
       }
       
       gameObject.SetActive(false);

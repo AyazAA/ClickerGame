@@ -15,10 +15,11 @@ namespace CodeBase.UI
     
         private IEnumerator DoFadeIn()
         {
+            WaitForSeconds waitForSeconds = new WaitForSeconds(0.03f);
             while (Window.alpha < 1)
             {
                 Window.alpha += 0.03f;
-                yield return new WaitForSeconds(0.03f);
+                yield return waitForSeconds;
             }
         }
     }

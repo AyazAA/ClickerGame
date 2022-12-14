@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections;
 using CodeBase.Logic;
-using TMPro;
 using UnityEngine;
 
 namespace CodeBase.Enemy
 {
-    public class EnemyHealth: MonoBehaviour, IHealth
+    public class EnemyHealth : MonoBehaviour
     {
         [SerializeField] private EnemyAnimator _animator;
-        [SerializeField] private TextMeshPro _damageText; 
-        [SerializeField] private GameObject _damagePopup; 
 
         private float _current;
         private float _max;
-        
+
         public event Action HealthChanged;
+        public event Action<float> DamageCaused;
 
         public float Current
         {
@@ -31,29 +28,14 @@ namespace CodeBase.Enemy
 
         public void TakeDamage(float damage)
         {
+            if (Current <= 0)
+                return;
+
             Current -= damage;
-            _animator.PlayHit();
-            PickUp(damage);
+            if (Current > 0)
+                _animator.PlayHit();
+            DamageCaused?.Invoke(damage);
             HealthChanged?.Invoke();
-        }
-        
-        private void PickUp(float damage)
-        {
-            ShowText(damage);
-            StartCoroutine(StartDestroyTimer(0.1f));
-        }
-
-
-        private void ShowText(float damage)
-        {
-            _damageText.text = $"-{ damage}";
-            _damagePopup.SetActive(true);
-        }
-
-        private IEnumerator StartDestroyTimer(float destroyDelay)
-        {
-            yield return new WaitForSeconds(destroyDelay);
-            _damagePopup.SetActive(false);
         }
     }
 }
